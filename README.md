@@ -6,22 +6,6 @@ The game is 10GB in a ZIP file; once extracted, it becomes 12GB. Typically, the 
 
 # how It Works
 
-==+SERVER:+==
-
-setup_vps.sh
-     ↓
-fetch_build.sh
-     ↓
-generate_manifest.sh
-     ↓
-FILES READY
-
-==+CLIENT:+==
-
-client_downloader.py
-     ↓
-DOWNLOAD GAME
-
 1. The VPS server downloads the game’s ZIP file
 2. The server extracts the ZIP file to the public folder
 3. The server deletes the ZIP file (to save storage space)
