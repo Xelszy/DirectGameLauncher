@@ -9,7 +9,11 @@ echo "Installing nginx..."
 
 sudo apt install nginx -y
 sudo apt install aria2 -y
+sudo apt install unzip -y
 sudo apt install unrar -y
+sudo apt install p7zip-full -y
+sudo apt install wget -y
+sudo apt install curl -y
 
 echo "Starting nginx..."
 
