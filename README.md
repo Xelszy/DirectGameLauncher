@@ -17,13 +17,17 @@ The game is 10GB in a ZIP file; once extracted, it becomes 12GB. Typically, the 
 - **Web Server**: Nginx to serve files
 - **Client Launcher**: Script to download and verify files
 
+*Note: Always use `sudo` or the `sudo su` command first
 1. run setup_vps.sh first
 2. run fetch_build.sh
 use example: ./fetch_build.sh "https://example.com/game.rar"
 3. ./generate_manifest.sh
+check manifest.json di http://IP_VPS/game/
 
-Next, on the client/user PC:
+Next, on the client/local user PC:
 
 1. pip install requests
 2. run script .py
-use example: python client_downloader.py http://IP_VPS/game/GameFolder
+use example: python client_downloader.py http://IP_VPS/game/release/GameFolder
+
+Done!
