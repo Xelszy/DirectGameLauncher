@@ -22,12 +22,6 @@ client_downloader.py
      ↓
 DOWNLOAD GAME
 
-flowchart LR
-    A[VPS: Download Game] --> B[VPS: Extract Game];
-    B --> C[Remove File .zip];
-    C --> D[VPS: Nginx File Server];
-    D --> E[Client: Download via Script];
-
 1. The VPS server downloads the game’s ZIP file
 2. The server extracts the ZIP file to the public folder
 3. The server deletes the ZIP file (to save storage space)
