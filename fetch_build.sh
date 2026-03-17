@@ -1,5 +1,9 @@
 #!/bin/bash
+
 set -e
+
+BUILD_DIR="/var/www/html/game/build"
+RELEASE_DIR="/var/www/html/game/release"
 
 URL=$1
 
@@ -10,43 +14,44 @@ then
     exit 1
 fi
 
-cd /var/www/html/game
+mkdir -p $BUILD_DIR
+mkdir -p $RELEASE_DIR
 
-FILENAME=$(basename "$URL")
+cd $BUILD_DIR
 
 echo "Downloading build..."
 
-sudo apt install unzip unrar p7zip-full -y
-aria2c --continue=true -x 16 -s 16 "$URL"
+FILENAME=$(basename "$URL")
+FILENAME=${FILENAME%%\?*}
+
+aria2c --continue=true -x 16 -s 16 -o "$FILENAME" "$URL"
 
 echo "Detecting archive type..."
 
 if [[ $FILENAME == *.rar ]]
 then
+
     echo "RAR detected"
-    
-    sudo apt install unrar -y
-    unrar x "$FILENAME"
+
+    unrar x "$FILENAME" "$RELEASE_DIR"
 
 elif [[ $FILENAME == *.zip ]]
 then
 
     echo "ZIP detected"
 
-    sudo apt install unzip -y
-    unzip "$FILENAME"
+    unzip "$FILENAME" -d "$RELEASE_DIR"
 
 elif [[ $FILENAME == *.7z ]]
 then
 
     echo "7Z detected"
 
-    sudo apt install p7zip-full -y
-    7z x "$FILENAME"
+    7z x "$FILENAME" -o"$RELEASE_DIR"
 
 else
 
-    echo "Unknown format"
+    echo "Unknown archive format"
     exit 1
 
 fi
@@ -55,14 +60,18 @@ echo "Cleaning archive..."
 
 rm "$FILENAME"
 
+echo "Moving to release folder..."
+
+cd $RELEASE_DIR
+
 echo "Generating manifest..."
 
-python3 generate_manifest.py
+python3 /opt/fastdl-game-launcher/server/generate_manifest.py
 
 SERVER_IP=$(curl -s ifconfig.me)
 
 echo ""
 echo "Build ready!"
 echo "Distribution URL:"
-echo "http://$SERVER_IP/game/"
+echo "http://$SERVER_IP/game/release"
 echo ""
