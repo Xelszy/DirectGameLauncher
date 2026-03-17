@@ -8,6 +8,8 @@ sudo apt upgrade -y
 echo "Installing nginx..."
 
 sudo apt install nginx -y
+sudo apt install aria2 -y
+sudo apt install unrar -y
 
 echo "Starting nginx..."
 
